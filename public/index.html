@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>my-website utilities</title>
+    <style>
+        nav {
+            background: #333;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            margin-top: 10px;
+        }
+        .disabled {
+            pointer-events: none;
+            color: gray;
+            opacity: 0.6;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" onclick="loadPage('binary-converter.html')">binary-converter</a>
+        <a href="#" onclick="loadPage('page2.html')" class="disabled">tool 2</a>
+        <a href="#" onclick="loadPage('page3.html')" class="disabled">tool 3</a>
+    </nav>
+
+    <iframe id="viewer" src="binary-converter.html"></iframe>
+
+    <script>
+        function loadPage(url) {
+            document.getElementById('viewer').src = url;
+        }
+    </script>
+
+</body>
+</html>
