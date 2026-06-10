@@ -1,19 +1,5 @@
 
-                        <!DOCTYPE html>
-                        <html lang="en">
-                        <head>
-                            <meta charset="UTF-8">
-                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-							<style>
-								body {
-									background-color: white; /* Ensure the iframe has a white background */
-								}
-
-								
-							</style>
-                        </head>
-                        <body>
-                            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -191,12 +177,12 @@
 
         <div class="result-container">
             <div class="result" id="hexResult">
-                <p id="hexlabel">HEX:</p>
-                <p id="hexValue"></p>
+                <!-- <span>HEX:</span> -->
+                <p id="hexValue">HEX:</p>
             </div>
             <div class="result" id="decimalResult">
-                <p id="declabel">DEC:</p>
-                <p id="decimalValue"></p>
+                <!-- <span>DEC:</span> -->
+                <p id="decimalValue">DEC:</p>
             </div>
         </div>
 
@@ -318,8 +304,6 @@
                 const decimalResult = binaryToDecimal(binaryStr);
                 const hexResult = binaryToHex(binaryStr);
 
-                hideElement('hexlabel');
-                hideElement('declabel');
                 showResult('hexValue', 'hexResult', `HEX: ${hexResult}`);
                 showResult('decimalValue', 'decimalResult', `DEC: ${decimalResult}`);
             } catch (error) {
@@ -331,7 +315,6 @@
             try {
                 const binaryInput = document.getElementById('binaryInput').value;
                 const result = binaryToDecimal(binaryInput);
-                hideElement('declabel');
                 showResult('decimalValue', 'decimalResult', `DEC: ${result}`);
                 hideElement('hexResult');
             } catch (error) {
@@ -343,7 +326,6 @@
             try {
                 const binaryInput = document.getElementById('binaryInput').value;
                 const result = binaryToHex(binaryInput);
-                hideElement('hexlabel');
                 showResult('hexValue', 'hexResult', `HEX: ${result}`);
                 hideElement('decimalResult');
             } catch (error) {
@@ -354,11 +336,11 @@
         function resetInput() {
             document.getElementById('binaryInput').value = '';
             createBitToggles('0'.repeat(64));
-            hideElement('decimalResult');
-            hideElement('hexResult');
+            //hideElement('decimalResult');
+            //hideElement('hexResult');
+            showResult('hexValue', 'hexResult', `HEX: `);
+            showResult('decimalValue', 'decimalResult', `DEC: `);
             hideElement('errorMessage');
-            showElement('hexlabel');
-            showElement('declabel');
         }
 
         function showResult(resultId, resultContainer, message) {
@@ -414,10 +396,3 @@
     </script>
 </body>
 </html>
-
-							<script>
-                            	
-							</script>
-                        </body>
-                        </html>
-                    
