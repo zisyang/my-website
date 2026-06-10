@@ -1,0 +1,413 @@
+
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<style>
+								body {
+									background-color: white; /* Ensure the iframe has a white background */
+								}
+
+								
+							</style>
+                        </head>
+                        <body>
+                            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary to Decimal/Hex Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .converter-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border: 1px solid #dee2e6;
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 24px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        button {
+            background-color: #f8f9fa;
+            color: #495057;
+            padding: 15px 30px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+            min-width: 140px;
+        }
+
+        button:hover {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(76, 175, 80, 0.1);
+            border-radius: 8px;
+        }
+
+        .result {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #4CAF50;
+        }
+
+        .error {
+            color: #dc3545;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .bit-toggle-container {
+            display: table;
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .bit-toggle-row {
+            display: table-row;
+        }
+
+        .bold-border-left {
+            border-left: 2px solid #495057;
+        }
+
+        .bit-marker-cell {
+            width: 40px;
+            text-align: center;
+            vertical-align: top;
+            font-size: 12px;
+            color: #6c757d;
+            padding: 5px;
+            padding-top: 5px;
+            padding-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+        }
+
+        .bit-toggle-cell {
+            display: table-cell;
+            width: 30px;
+            text-align: center;
+            padding: 2px;
+        }
+
+        .bit-toggle {
+            background-color: #f8f9fa;
+            border: 3px solid #dee2e6;
+            padding: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .bit-toggle.active {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter-container">
+        <h1>Binary to Decimal/Hex Converter</h1>
+        
+        <div class="input-group">
+            <label for="binaryInput">Enter Binary Number:</label>
+            <input type="text" id="binaryInput" placeholder="Enter binary number (e.g., 1010)" maxlength="64">
+        </div>
+
+        <div class="bit-toggle-container" id="bitToggleContainer"></div>
+
+        <div class="buttons-container">
+            <button onclick="convertToHex()">Convert to Hexadecimal</button>
+            <button onclick="convertToDecimal()">Convert to Decimal</button>
+            <button onclick="resetInput()">Reset</button>
+        </div>
+
+        <div class="result-container">
+            <div class="result" id="hexResult">
+                <span>Hex:</span>
+                <p id="hexValue"></p>
+            </div>
+            <div class="result" id="decimalResult">
+                <span>Dec:</span>
+                <p id="decimalValue"></p>
+            </div>
+        </div>
+
+        <div id="errorMessage" class="error"></div>
+    </div>
+
+    <script>
+        function binaryToDecimal(binaryStr) {
+            if (/[^01]/.test(binaryStr)) {
+                throw new Error("Invalid binary number");
+            }
+            return parseInt(binaryStr, 2);
+        }
+
+        function binaryToHex(binaryStr) {
+            if (/[^01]/.test(binaryStr)) {
+                throw new Error("Invalid binary number");
+            }
+            const decimal = binaryToDecimal(binaryStr);
+            return decimal.toString(16).toUpperCase();
+        }
+
+        function createBitToggles(binaryStr) {
+            const container = document.getElementById('bitToggleContainer');
+            container.innerHTML = '';
+            
+            // Ensure the binary string is at least 64 bits by padding with leading zeros
+            let paddedBinary = binaryStr.padStart(64, '0');
+
+            // Create a table structure
+            const table = document.createElement('table');
+            table.className = 'bit-toggle-container';
+
+            // Add bit position markers as table headers
+            // const headerRow = document.createElement('tr');
+            const markerPositions = Array.from({ length: 64 }, (_, i) => {
+                return i % 4 === 0 ? 64 - i : null}); //[60, 56, 52, 48, 44, 40, 36, 32, 28, 24, 20, 16, 12, 8, 4, 0];
+            // markerPositions.forEach(pos => {
+            //     const th = document.createElement('th');
+            //     th.className = 'bit-marker-cell';
+            //     th.textContent = pos;
+            //     headerRow.appendChild(th);
+            // });
+            // table.appendChild(headerRow);
+
+            // Create rows for each bit group
+            for (let i = 0; i < paddedBinary.length; i += 16) {
+                const row = document.createElement('tr');
+                row.className = 'bit-toggle-row';
+                const rowm = document.createElement('tr');
+                rowm.className = 'bit-marker-cell';
+
+                // Add marker cell
+                // const markerCell = document.createElement('td');
+                // markerCell.className = 'bit-marker-cell';
+                // markerCell.textContent = ``; // Adjust as needed
+                // row.appendChild(markerCell);
+
+                // Create toggles for the next 16 bits
+                for (let j = i; j < Math.min(i + 16, paddedBinary.length); j++) {
+                    const bit = paddedBinary[j];
+                    const toggle = document.createElement('div');
+                    toggle.className = 'bit-toggle';
+                    toggle.textContent = bit;
+                    // Add click handler to toggle the bit
+                    toggle.onclick = function() {
+                        const newBinary = [...paddedBinary].map((b, index) => {
+                            if (index === j) {
+                                return b === '0' ? '1' : '0';
+                            }
+                            return b;
+                        }).join('');
+                        
+                        // Update the binary input and recreate toggles
+                        document.getElementById('binaryInput').value = newBinary.slice(-64); 
+                        createBitToggles(newBinary);
+                        
+                        // Ensure leading zeros are removed from the input
+                        const sanitizedValue = newBinary.replace(/^0+/, '') || '0';
+                        if (sanitizedValue !== newBinary) {
+                            document.getElementById('binaryInput').value = sanitizedValue;
+                            updateResults(sanitizedValue);
+                        }
+                    };
+
+                    // Highlight the bit if it's 1
+                    if (bit === '1') {
+                        toggle.classList.add('active');
+                    }
+
+                    const cell = document.createElement('td');
+                    cell.className = 'bit-toggle-cell';
+
+                    const markerCell = document.createElement('td');
+                    markerCell.className = 'bit-marker-cell';
+                    markerCell.textContent = '';
+                    if ( markerPositions[j] != null) {
+                        markerCell.textContent = markerPositions[j];
+                        if (j%16 !== 0) {
+                            cell.className +=' bold-border-left';
+                            markerCell.className += ' bold-border-left'
+                        }
+                    }
+
+                    cell.appendChild(toggle);
+                    row.appendChild(cell);
+                    rowm.appendChild(markerCell);
+                }
+
+                table.appendChild(row);
+                table.appendChild(rowm);
+            }
+
+            container.appendChild(table);
+        }
+
+        function updateResults(binaryStr) {
+            try {
+                const decimalResult = binaryToDecimal(binaryStr);
+                const hexResult = binaryToHex(binaryStr);
+
+                showResult('hexValue', 'hexResult', `Hexadecimal: ${hexResult}`);
+                showResult('decimalValue', 'decimalResult', `Decimal: ${decimalResult}`);
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        function convertToDecimal() {
+            try {
+                const binaryInput = document.getElementById('binaryInput').value;
+                const result = binaryToDecimal(binaryInput);
+                showResult('decimalValue', 'decimalResult', `Decimal: ${result}`);
+                hideElement('hexResult');
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        function convertToHex() {
+            try {
+                const binaryInput = document.getElementById('binaryInput').value;
+                const result = binaryToHex(binaryInput);
+                showResult('hexValue', 'hexResult', `Hexadecimal: ${result}`);
+                hideElement('decimalResult');
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        function resetInput() {
+            document.getElementById('binaryInput').value = '';
+            createBitToggles('0'.repeat(64));
+            hideElement('decimalResult');
+            hideElement('hexResult');
+            hideElement('errorMessage');
+        }
+
+        function showResult(resultId, resultContainer, message) {
+            const result = document.getElementById(resultId);
+            result.textContent = message;
+            document.getElementById(resultContainer).style.display = 'block';
+        }
+
+        function hideElement(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            hideElement('decimalResult');
+            hideElement('hexResult');
+        }
+
+        // Add event listener for Enter key
+        document.getElementById('binaryInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                convertToHex();
+                convertToDecimal();
+            }
+        });
+
+        // Update bit toggles and sanitize input when changes occur
+        document.getElementById('binaryInput').addEventListener('input', function() {
+            let sanitizedValue = this.value.replace(/[^01]/g, '');
+            
+            if (sanitizedValue.length > 0) {
+                // Remove leading zeros while ensuring at least one zero remains if all bits are zero
+                sanitizedValue = sanitizedValue.replace(/^0+/, '') || '0';
+            }
+            
+            if (this.value !== sanitizedValue) {
+                this.value = sanitizedValue;
+            }
+            
+            createBitToggles(sanitizedValue);
+            updateResults(sanitizedValue);
+        });
+
+        // Initialize with at least one zero
+        window.onload = function() {
+            document.getElementById('binaryInput').value = '0';
+            createBitToggles('0'.repeat(64));
+        };
+    </script>
+</body>
+</html>
+
+							<script>
+                            	
+							</script>
+                        </body>
+                        </html>
+                    
