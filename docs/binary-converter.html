@@ -318,8 +318,8 @@
                 const decimalResult = binaryToDecimal(binaryStr);
                 const hexResult = binaryToHex(binaryStr);
 
-				        hideElement('hexlabel');
-				        hideElement('declabel');
+                hideElement('hexlabel');
+                hideElement('declabel');
                 showResult('hexValue', 'hexResult', `HEX: ${hexResult}`);
                 showResult('decimalValue', 'decimalResult', `DEC: ${decimalResult}`);
             } catch (error) {
@@ -331,7 +331,7 @@
             try {
                 const binaryInput = document.getElementById('binaryInput').value;
                 const result = binaryToDecimal(binaryInput);
-				        hideElement('declabel');
+                hideElement('declabel');
                 showResult('decimalValue', 'decimalResult', `DEC: ${result}`);
                 hideElement('hexResult');
             } catch (error) {
@@ -343,7 +343,7 @@
             try {
                 const binaryInput = document.getElementById('binaryInput').value;
                 const result = binaryToHex(binaryInput);
-				        hideElement('hexlabel');
+                hideElement('hexlabel');
                 showResult('hexValue', 'hexResult', `HEX: ${result}`);
                 hideElement('decimalResult');
             } catch (error) {
@@ -357,8 +357,8 @@
             hideElement('decimalResult');
             hideElement('hexResult');
             hideElement('errorMessage');
-            document.getElementById('hexlabel').style.display = '';
-            document.getElementById('declabel').style.display = '';
+            showElement('hexlabel');
+            showElement('declabel');
         }
 
         function showResult(resultId, resultContainer, message) {
@@ -367,6 +367,10 @@
             document.getElementById(resultContainer).style.display = 'block';
         }
 
+        function showElement(elementId) {
+            document.getElementById(elementId).style.display = 'block';
+        }
+		
         function hideElement(elementId) {
             document.getElementById(elementId).style.display = 'none';
         }
