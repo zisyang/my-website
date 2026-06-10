@@ -191,11 +191,11 @@
 
         <div class="result-container">
             <div class="result" id="hexResult">
-                <span>Hex:</span>
+                <span id="hexlabel">HEX:</span>
                 <p id="hexValue"></p>
             </div>
             <div class="result" id="decimalResult">
-                <span>Dec:</span>
+                <span id="declabel">DEC:</span>
                 <p id="decimalValue"></p>
             </div>
         </div>
@@ -318,6 +318,8 @@
                 const decimalResult = binaryToDecimal(binaryStr);
                 const hexResult = binaryToHex(binaryStr);
 
+				hideElement('hexlabel');
+				hideElement('declabel');
                 showResult('hexValue', 'hexResult', `Hexadecimal: ${hexResult}`);
                 showResult('decimalValue', 'decimalResult', `Decimal: ${decimalResult}`);
             } catch (error) {
@@ -329,7 +331,8 @@
             try {
                 const binaryInput = document.getElementById('binaryInput').value;
                 const result = binaryToDecimal(binaryInput);
-                showResult('decimalValue', 'decimalResult', `Decimal: ${result}`);
+				hideElement('declabel');
+                ('decimalValue', 'decimalResult', `DEC: ${result}`);
                 hideElement('hexResult');
             } catch (error) {
                 showError(error.message);
@@ -340,7 +343,8 @@
             try {
                 const binaryInput = document.getElementById('binaryInput').value;
                 const result = binaryToHex(binaryInput);
-                showResult('hexValue', 'hexResult', `Hexadecimal: ${result}`);
+				hideElement('hexlabel');
+                showResult('hexValue', 'hexResult', `HEX: ${result}`);
                 hideElement('decimalResult');
             } catch (error) {
                 showError(error.message);
@@ -353,6 +357,8 @@
             hideElement('decimalResult');
             hideElement('hexResult');
             hideElement('errorMessage');
+            document.getElementById('hexlabel').style.display = '';
+            document.getElementById('declabel').style.display = '';
         }
 
         function showResult(resultId, resultContainer, message) {
